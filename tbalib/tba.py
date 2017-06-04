@@ -1,6 +1,7 @@
 import urllib2
 import json
 import collections
+import models
 
 class TBACommunication(object):
 
@@ -30,3 +31,12 @@ class TBACommunication(object):
 			return type(data)(map(TBACommunication.__parse_unicode__, data))
 		else:
 			return data
+
+class TBARequestCoordinator(object):
+	"""
+	Make sure to set the X_TBA_KEY in the TBACommunication class using the method setKey() before making any requests.
+	"""
+
+	@staticmethod
+	def get_team(team):
+		return models.TeamModel(TBACommunication.getExtension("/team/frc254"))

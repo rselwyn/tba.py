@@ -39,4 +39,8 @@ class TBARequestCoordinator(object):
 
 	@staticmethod
 	def get_team(team):
-		return models.TeamModel(TBACommunication.getExtension("/team/frc254"))
+		return models.TeamModel(TBACommunication.getExtension("/team/" + team))
+
+	@staticmethod
+	def get_awards(team):
+		return models.TeamAwardsModel(TBACommunication.getExtension("/team/" + team + "/awards"))

@@ -61,3 +61,34 @@ class TeamModel(object):
 
 	def __str__(self):
 		return "Information about This Team Object: " + str(vars(self))
+
+class TeamAwardsModel(object):
+
+	def __init__(self, data):
+		self.award_list = []
+		for i in data:
+			self.award_list.append(TBAAward(i["name"], i["event_key"], i["year"]))
+
+	def get_all_awards(self):
+		return self.award_list
+
+	def get_award_during_year(self, year):
+		return filter(lambda x: x.get_year() == year, self.award_list)
+
+
+class TBAAward(object):
+
+	def __init__(self, name, event, year):
+		self.name = name
+		self.event = event
+		self.year = int(year)
+
+	def get_name(self):
+		return self.name
+
+	def get_event(self):
+		return self.event
+
+	def get_year(self):
+		return self.year
+

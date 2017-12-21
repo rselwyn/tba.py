@@ -24,7 +24,7 @@ class TBACommunication(object):
 	@staticmethod
 	def __parse_unicode__(data):
 		if isinstance(data, basestring):
-			return str(data)
+			return str(data.encode("ascii", errors="ignore"))
 		elif isinstance(data, collections.Mapping):
 			return dict(map(TBACommunication.__parse_unicode__, data.iteritems()))
 		elif isinstance(data, collections.Iterable):
@@ -44,3 +44,19 @@ class TBARequestCoordinator(object):
 	@staticmethod
 	def get_awards(team):
 		return models.TeamAwardsModel(TBACommunication.getExtension("/team/" + team + "/awards"))
+
+	@staticmethod
+	def get_matches(team, event):
+		return models.TeamMatchAtEventModel(TBACommunication.getExtension("/team/" + team + "/event/" + event + "/matches"))
+
+	@staticmethod
+	def get_full_event(event):
+		return models.Events(TBACommunication.getExtension("/event/" + event + "/matches"), TBACommunication.getExtension("/event/" + event + "/teams"))
+
+	@staticmethod
+	def get_oprs(event):
+		return TBACommunication.getExtension("/event/" + event + "/predictions")
+
+	@staticmethod
+	def get_insights(event):
+		return TBACommunication.getExtension("/event/" + event + "/insights")

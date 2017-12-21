@@ -92,3 +92,54 @@ class TBAAward(object):
 	def get_year(self):
 		return self.year
 
+class MatchModel(object):
+
+	def __init__(self, data):
+		self.match_number = data["match_number"]
+		self.comp_level = data["comp_level"]
+		self.key = data["key"]
+
+		self.blue_alliance = Alliance(data["alliances"]["blue"]["team_keys"][0],data["alliances"]["blue"]["team_keys"][1], data["alliances"]["blue"]["team_keys"][2])
+		self.red_alliance = Alliance(data["alliances"]["red"]["team_keys"][0],data["alliances"]["red"]["team_keys"][1], data["alliances"]["red"]["team_keys"][2])
+		self.winner = data["winning_alliance"]
+
+		self.score_breakdown = data["score_breakdown"] # For Game Independence
+
+	def __str__(self):
+		return self.winner
+
+
+class TeamMatchAtEventModel(object):
+
+	def __init__(self, data):
+		self.matches = []
+		for i in data:
+			self.matches.append(MatchModel(i))
+
+	def get_matches(self):
+		return self.matches
+
+class Events(object):
+
+	def __init__(self, matches, teams):
+
+		self.matches = matches
+		self.teams = [i["team_number"] for i in teams]
+		self.awards = None
+		self.rankings = None
+		self.districtpoints = None
+
+		print self.matches
+
+class Alliance(object):
+
+	def __init__(self, *teams):
+		if len(teams) == 3:
+			self.NUM_TEAMS = 3
+		else:
+			self.NUM_TEAMS = 4
+
+		self.teams = teams
+
+	def get_teams(self):
+		return self.teams

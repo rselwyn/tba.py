@@ -1,4 +1,6 @@
-from pprint import pprint
+
+import json
+
 class TeamModel(object):
 
 	def __init__(self, data):
@@ -108,6 +110,18 @@ class MatchModel(object):
 	def __str__(self):
 		return self.winner
 
+	def get_blue_alliance():
+		return self.blue_alliance.get_teams()
+
+	def get_red_alliance():
+		return self.red_alliance.get_teams()
+
+	def get_breakdown():
+		return self.score_breakdown
+
+	def get_key():
+		return self.key
+
 
 class TeamMatchAtEventModel(object):
 
@@ -122,14 +136,19 @@ class TeamMatchAtEventModel(object):
 class Events(object):
 
 	def __init__(self, matches, teams):
-
-		self.matches = matches
+		# ppjson(matches)
+		self.matches = [MatchModel(i) for i in matches]
 		self.teams = [i["team_number"] for i in teams]
 		self.awards = None
 		self.rankings = None
 		self.districtpoints = None
 
-		print self.matches
+	def returnable(self):
+		dct = {}
+		dct["matches"] =  {i.get_key() : {"blue" : i.get_blue_alliance(), "red" : i.get_red_alliance(), "score_breakdown" : i.get_breakdown()} for i in matches}		
+		dct["teams"] = self.teams
+
+		return dct
 
 class Alliance(object):
 
@@ -143,3 +162,6 @@ class Alliance(object):
 
 	def get_teams(self):
 		return self.teams
+
+def ppjson(top):
+	print json.dumps(top, indent=4, sort_keys=True)

@@ -150,6 +150,9 @@ class Events(object):
 
 		return dct
 
+	def get_teams(self):
+		return self.teams
+
 class Alliance(object):
 
 	def __init__(self, *teams):
